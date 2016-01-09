@@ -173,7 +173,7 @@ class reader:
 			
 if __name__ == "__main__":
 				
-	hello=reader("bms/The Beauty Of Silence/The Beauty Of Silence(2 A).bms")
+	hello=reader("bms/Release The Music/#Release The Music [03 SP ANOTHER].bme")
 	hello.readnote()
 	hello.arrangenote()
 

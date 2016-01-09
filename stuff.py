@@ -170,7 +170,7 @@ class keys:
 #drawscratch: 50 pixels wide
 		
 
-hello=bmsreader.reader("bms/The Beauty Of Silence/The Beauty Of Silence(2 A).bms")
+hello=bmsreader.reader("bms/AFRO KNUCKLE/afro-a.bms")
 hello.readnote()
 hello.arrangenote()
 
