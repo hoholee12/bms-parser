@@ -1,4 +1,8 @@
-/*beatmania IIDX 3rd - 8th style config switch by dxnoob
+/*beatmania IIDX config switch by dxnoob
+
+give -1 on argv[2] for 3rd - 8th style switch
+give -2 on argv[2] for 9th - 16th style switch
+give -3 on argv[2] disables allow 8bit textures
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -11,6 +15,7 @@ based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 
 void error(char *error) {
 	printf("%s\n", error);
+	Sleep(1000);
 	exit(1);
 
 }
@@ -53,9 +58,16 @@ int main(int argc, char **argv) {
 	FILE *file = NULL;
 	FILE *file2 = NULL;
 	int i = 0;
+	int flag = 0;
 	long flength = 0;
 	if (argc == 1) {
-		error("nothing specified");
+		error("nothing specified. i need a directory of ini folder");
+	}
+	else if (argc == 2) {
+		error("requires both ini folder directory and option\n"
+			"for option, \"-1\" for 3rd - 8th style\n"
+			"\"-2\" for 9th - 16th style\n");
+	
 	}
 	if (argv[1]) strcpy(pre, argv[1]);
 	else error("what");
@@ -65,6 +77,20 @@ int main(int argc, char **argv) {
 		"made by dxnoob\n"
 		"have fun!\n"
 		);
+
+	//flag
+	switch(argv[2][1]) {
+	case '1':
+		flag = 1; break;
+	case '2':
+		flag = 2; break;
+	case '3':
+		flag = 3; break;
+	default:
+		error("invalid option!");
+	
+	}
+
 
 	//PCSX2_vm.ini
 	strcpy(address, pre);
@@ -94,21 +120,42 @@ int main(int argc, char **argv) {
 		fseek(file, 0L, SEEK_END);
 		flength = ftell(file); //tell filesize
 		fseek(file, 0L, SEEK_SET); //goto first
+		switch (flag) {
+		case 1:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "FramerateNTSC")) {
 
-		for (; fgets(buffer, 1024, file); i++) {
-			strcpy(buffer2, buffer);
-			if (!strcmp(strtok(buffer2, " ="), "FramerateNTSC")) {
+					fputs("FramerateNTSC=59.82\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
 
-				fputs("FramerateNTSC=59.82\n", file2);
+					fputs("VUCycleSteal=0\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
 			}
-			else if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+			break;
+		case 2:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
 
-				fputs("VUCycleSteal=0\n", file2);
+					fputs("VUCycleSteal=0\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
 			}
-			else {
+			break;
+		default:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
 				fputs(buffer, file2);
 			}
 		}
+
 		fflush(file);
 		fclose(file);
 
@@ -147,13 +194,50 @@ int main(int argc, char **argv) {
 		flength = ftell(file); //tell filesize
 		fseek(file, 0L, SEEK_SET); //goto first
 
-		for (; fgets(buffer, 1024, file); i++) {
-			strcpy(buffer2, buffer);
-			if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
+		switch (flag) {
+		case 1:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
 
-				fputs("Renderer=4\n", file2);
+					fputs("Renderer=4\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
 			}
-			else {
+			break;
+		case 2:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
+
+					fputs("Interlace=3\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "paltex")) {
+
+					fputs("paltex=1\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 3:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "paltex")) {
+
+					fputs("paltex=0\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		default:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
 				fputs(buffer, file2);
 			}
 		}
