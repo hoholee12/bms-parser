@@ -60,6 +60,9 @@ int main(int argc, char **argv) {
 	int i = 0;
 	int flag = 0;
 	long flength = 0;
+
+	char* temp = NULL;
+
 	if (argc == 1) {
 		error("nothing specified. i need a directory of ini folder");
 	}
@@ -149,6 +152,24 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
+		case 3:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+					temp = strtok(NULL, " =");
+					if (temp[0] - '0' > 0) {
+						fprintf(file2, "VUCycleSteal=%d\n", temp[0] - '0' - 1); //light stealing
+					}
+					else {
+						fprintf(file2, "VUCycleSteal=0\n");
+					
+					}
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
@@ -221,18 +242,6 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "paltex")) {
 
 					fputs("paltex=1\n", file2);
-				}
-				else {
-					fputs(buffer, file2);
-				}
-			}
-			break;
-		case 3:
-			for (; fgets(buffer, 1024, file); i++) {
-				strcpy(buffer2, buffer);
-				if (!strcmp(strtok(buffer2, " ="), "paltex")) {
-
-					fputs("paltex=0\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
