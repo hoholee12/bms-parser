@@ -231,11 +231,7 @@ int main(int argc, char **argv) {
 		case 2:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
-				if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
-
-					fputs("Renderer=4\n", file2);
-				}
-				else if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
+				if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
 
 					fputs("Interlace=3\n", file2);
 				}
