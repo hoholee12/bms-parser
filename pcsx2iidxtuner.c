@@ -2,7 +2,8 @@
 
 give -1 on argv[2] for 3rd - 8th style switch
 give -2 on argv[2] for 9th - 16th style switch
-give -3 on argv[2] disables allow 8bit textures
+give -3 on argv[2] lighter stealing
+give -4 on argv[2] hd rendering
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -64,12 +65,18 @@ int main(int argc, char **argv) {
 	char* temp = NULL;
 
 	if (argc == 1) {
-		error("nothing specified. i need a directory of ini folder");
+		error("nothing specified. i need a directory of ini folder and option\n"
+			"for option, \"-1\" for 3rd - 8th style\n"
+			"\"-2\" for 9th - 16th style\n"
+			"\"-3\" for one lower vu stealing level\n"
+			"\"-4\" for hd resolution\n");
 	}
 	else if (argc == 2) {
 		error("requires both ini folder directory and option\n"
 			"for option, \"-1\" for 3rd - 8th style\n"
-			"\"-2\" for 9th - 16th style\n");
+			"\"-2\" for 9th - 16th style\n"
+			"\"-3\" for one lower vu stealing level\n"
+			"\"-4\" for hd resolution\n");
 	
 	}
 	if (argv[1]) strcpy(pre, argv[1]);
@@ -89,6 +96,8 @@ int main(int argc, char **argv) {
 		flag = 2; break;
 	case '3':
 		flag = 3; break;
+	case '4':
+		flag = 4; break;
 	default:
 		error("invalid option!");
 	
@@ -131,9 +140,30 @@ int main(int argc, char **argv) {
 
 					fputs("FramerateNTSC=59.82\n", file2);
 				}
+				//disable speedhacks
+				else if (!strcmp(strtok(buffer2, " ="), "EECycleRate")) {
+
+					fputs("EECycleRate=0\n", file2);
+				}
 				else if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
 
 					fputs("VUCycleSteal=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "IntcStat")) {
+
+					fputs("IntcStat=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "WaitLoop")) {
+
+					fputs("WaitLoop=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuFlagHack")) {
+
+					fputs("vuFlagHack=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
+
+					fputs("vuThread=disabled\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -143,9 +173,30 @@ int main(int argc, char **argv) {
 		case 2:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
-				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+				//disable speedhacks
+				if (!strcmp(strtok(buffer2, " ="), "EECycleRate")) {
+
+					fputs("EECycleRate=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
 
 					fputs("VUCycleSteal=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "IntcStat")) {
+
+					fputs("IntcStat=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "WaitLoop")) {
+
+					fputs("WaitLoop=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuFlagHack")) {
+
+					fputs("vuFlagHack=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
+
+					fputs("vuThread=disabled\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -170,6 +221,76 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
+		default:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				fputs(buffer, file2);
+			}
+		}
+
+		fflush(file);
+		fclose(file);
+
+		fflush(file2);
+		fclose(file2);
+
+		printf("applied!\n");
+	}
+
+	//PCSX2_ui.ini
+	strcpy(address, pre);
+	strcat(address, "/PCSX2_ui.ini");
+	strcpy(address2, address);
+	strcat(address2, ".bak");
+
+	if (file = fopen(address2, "r")) {
+		fclose(file); //file exists revert
+		filecopy(address2, address);
+		remove(address2);
+		printf("changed back.\n");
+
+	}
+	else {
+
+		filecopy(address, address2); //backup
+
+
+
+		file = fopen(address2, "r");
+		if (!file) error("something happened");
+
+		file2 = fopen(address, "w");
+		if (!file2) error("something happened");
+
+		fseek(file, 0L, SEEK_END);
+		flength = ftell(file); //tell filesize
+		fseek(file, 0L, SEEK_SET); //goto first
+		switch (flag) {
+		case 1:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "EnableSpeedHacks")) {
+
+					fputs("EnableSpeedHacks=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 2:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "EnableSpeedHacks")) {
+
+					fputs("EnableSpeedHacks=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
@@ -243,6 +364,27 @@ int main(int argc, char **argv) {
 					fputs(buffer, file2);
 				}
 			}
+			break;
+		case 4:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "resx")) {
+
+					fputs("resx=1280\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "resy")) {
+
+					fputs("resy=720\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
+
+					fputs("upscale_multiplier=0\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+
 			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
