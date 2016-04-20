@@ -4,6 +4,7 @@ give -1 on argv[2] for 3rd - 8th style switch
 give -2 on argv[2] for 9th - 16th style switch
 give -3 on argv[2] lighter stealing
 give -4 on argv[2] hd rendering
+give -5 on argv[2] for pop'n music switch
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -69,14 +70,16 @@ int main(int argc, char **argv) {
 			"for option, \"-1\" for 3rd - 8th style\n"
 			"\"-2\" for 9th - 16th style\n"
 			"\"-3\" for one lower vu stealing level\n"
-			"\"-4\" for hd resolution\n");
+			"\"-4\" for hd resolution\n"
+			"\"-5\" for pop'n music games\n");
 	}
 	else if (argc == 2) {
 		error("requires both ini folder directory and option\n"
 			"for option, \"-1\" for 3rd - 8th style\n"
 			"\"-2\" for 9th - 16th style\n"
 			"\"-3\" for one lower vu stealing level\n"
-			"\"-4\" for hd resolution\n");
+			"\"-4\" for hd resolution\n"
+			"\"-5\" for pop'n music games\n");
 	
 	}
 	if (argv[1]) strcpy(pre, argv[1]);
@@ -98,6 +101,8 @@ int main(int argc, char **argv) {
 		flag = 3; break;
 	case '4':
 		flag = 4; break;
+	case '5':
+		flag = 5; break;
 	default:
 		error("invalid option!");
 	
@@ -221,6 +226,39 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
+		case 5:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				//disable speedhacks
+				if (!strcmp(strtok(buffer2, " ="), "EECycleRate")) {
+
+					fputs("EECycleRate=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+
+					fputs("VUCycleSteal=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "IntcStat")) {
+
+					fputs("IntcStat=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "WaitLoop")) {
+
+					fputs("WaitLoop=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuFlagHack")) {
+
+					fputs("vuFlagHack=disabled\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
+
+					fputs("vuThread=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
@@ -290,7 +328,18 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
-		
+		case 5:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "EnableSpeedHacks")) {
+
+					fputs("EnableSpeedHacks=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
@@ -348,6 +397,10 @@ int main(int argc, char **argv) {
 
 					fputs("filter=2\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
+
+					fputs("Interlace=0\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -397,6 +450,30 @@ int main(int argc, char **argv) {
 				}
 			}
 
+			break;
+		case 5:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
+
+					fputs("Renderer=4\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "filter")) {
+
+					fputs("filter=2\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
+
+					fputs("Interlace=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "paltex")) {
+
+					fputs("paltex=1\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
 			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
@@ -466,7 +543,18 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
+		case 5:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, "="), "Keyboard Mode")) { //no spaces please
 
+					fputs("Keyboard Mode=1\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
