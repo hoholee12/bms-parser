@@ -399,7 +399,7 @@ int main(int argc, char **argv) {
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
 
-					fputs("Interlace=0\n", file2);
+					fputs("Interlace=7\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -464,7 +464,7 @@ int main(int argc, char **argv) {
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "Interlace")) {
 
-					fputs("Interlace=0\n", file2);
+					fputs("Interlace=7\n", file2);
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "paltex")) {
 
