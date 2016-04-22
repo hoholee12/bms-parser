@@ -411,7 +411,7 @@ int main(int argc, char **argv) {
 				strcpy(buffer2, buffer);
 				if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
 
-					fputs("Renderer=4\n", file2);
+					fputs("Renderer=3\n", file2);
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "filter")) {
 
