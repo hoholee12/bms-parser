@@ -6,6 +6,7 @@ give -3 on argv[2] lighter stealing
 give -4 on argv[2] hd rendering
 give -5 on argv[2] for pop'n music switch
 give -6 on argv[2] for 9th - 16th style HD alternative
+give -7 on argv[2] for ogl render + hwdepth
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -74,7 +75,9 @@ int main(int argc, char **argv) {
 			"\"-3\" for one lower vu stealing level\n"
 			"\"-4\" for hd resolution\n"
 			"\"-5\" for pop'n music games\n"
-			"\"-6\" for 9th - 16th style HD alternative\n");
+			"\"-6\" for 9th - 16th style HD alternative\n"
+			"\"-7\" for ogl render + hwdepth\n"
+			);
 	}
 	else if (argc == 2) {
 		error("requires both ini folder directory and option\n"
@@ -84,7 +87,9 @@ int main(int argc, char **argv) {
 			"\"-3\" for one lower vu stealing level\n"
 			"\"-4\" for hd resolution\n"
 			"\"-5\" for pop'n music games\n"
-			"\"-6\" for 9th - 16th style HD alternative\n");
+			"\"-6\" for 9th - 16th style HD alternative\n"
+			"\"-7\" for ogl render + hwdepth\n"
+			);
 	
 	}
 	if (argv[1]) strcpy(pre, argv[1]);
@@ -110,6 +115,8 @@ int main(int argc, char **argv) {
 		flag = 5; break;
 	case '6':
 		flag = 6; break;
+	case '7':
+		flag = 7; break;
 	default:
 		error("invalid option!");
 	
@@ -549,6 +556,22 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
 
 					fputs("upscale_multiplier=2\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 7:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Renderer")) {
+
+					fputs("Renderer=12\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "texture_cache_depth")) {
+
+					fputs("texture_cache_depth=1\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
