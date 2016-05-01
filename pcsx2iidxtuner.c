@@ -504,6 +504,10 @@ int main(int argc, char **argv) {
 
 					fputs("upscale_multiplier=0\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "filter")) {
+
+					fputs("filter=1\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
