@@ -7,6 +7,7 @@ give -4 on argv[2] hd rendering
 give -5 on argv[2] for pop'n music switch
 give -6 on argv[2] for 9th - 16th style HD alternative
 give -7 on argv[2] for ogl render + hwdepth
+give -8 on argv[2] for vuThread(boost katamari games)
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -77,6 +78,7 @@ int main(int argc, char **argv) {
 			"\"-5\" for pop'n music games\n"
 			"\"-6\" for 9th - 16th style HD alternative\n"
 			"\"-7\" for ogl render + hwdepth\n"
+			"\"-8\" for vuThread(boost katamari games)\n"
 			);
 	}
 	else if (argc == 2) {
@@ -89,6 +91,7 @@ int main(int argc, char **argv) {
 			"\"-5\" for pop'n music games\n"
 			"\"-6\" for 9th - 16th style HD alternative\n"
 			"\"-7\" for ogl render + hwdepth\n"
+			"\"-8\" for vuThread(boost katamari games)\n"
 			);
 	
 	}
@@ -117,6 +120,8 @@ int main(int argc, char **argv) {
 		flag = 6; break;
 	case '7':
 		flag = 7; break;
+	case '8':
+		flag = 8; break;
 	default:
 		error("invalid option!");
 	
@@ -300,6 +305,23 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
 
 					fputs("vuThread=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 8:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				//enable vuThread
+				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+
+					fputs("VUCycleSteal=0\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
+
+					fputs("vuThread=enabled\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
