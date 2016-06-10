@@ -514,6 +514,10 @@ int main(int argc, char **argv) {
 
 					fputs("Interlace=7\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "shaderfx")) {
+
+					fputs("shaderfx=0\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -537,6 +541,10 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "paltex")) {
 
 					fputs("paltex=1\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "shaderfx")) {
+
+					fputs("shaderfx=0\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -587,6 +595,10 @@ int main(int argc, char **argv) {
 
 					fputs("paltex=1\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "shaderfx")) {
+
+					fputs("shaderfx=0\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -614,6 +626,10 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
 
 					fputs("upscale_multiplier=2\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "shaderfx")) {
+
+					fputs("shaderfx=0\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
