@@ -189,6 +189,7 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
+				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -197,6 +198,7 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
+				*/
 				else {
 					fputs(buffer, file2);
 				}
@@ -230,6 +232,7 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
+				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -238,6 +241,7 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
+				*/
 				else {
 					fputs(buffer, file2);
 				}
@@ -289,6 +293,7 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
+				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -297,6 +302,7 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
+				*/
 				else {
 					fputs(buffer, file2);
 				}
@@ -330,6 +336,7 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
+				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -338,6 +345,7 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
+				*/
 				else {
 					fputs(buffer, file2);
 				}
