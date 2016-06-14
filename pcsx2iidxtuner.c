@@ -189,7 +189,6 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
-				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -198,7 +197,6 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
-				*/
 				else {
 					fputs(buffer, file2);
 				}
@@ -293,7 +291,6 @@ int main(int argc, char **argv) {
 
 					fputs("vuThread=disabled\n", file2);
 				}
-				/*
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
 					fputs("VsyncEnable=enabled\n", file2);
@@ -302,7 +299,6 @@ int main(int argc, char **argv) {
 
 					fputs("ManagedVsync=disabled\n", file2);
 				}
-				*/
 				else {
 					fputs(buffer, file2);
 				}
@@ -455,6 +451,99 @@ int main(int argc, char **argv) {
 				if (!strcmp(strtok(buffer2, " ="), "EnableSpeedHacks")) {
 
 					fputs("EnableSpeedHacks=disabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		default:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				fputs(buffer, file2);
+			}
+		}
+
+		fflush(file);
+		fclose(file);
+
+		fflush(file2);
+		fclose(file2);
+
+		printf("applied!\n");
+	}
+
+	//SPU2-X.ini
+	strcpy(address, pre);
+	strcat(address, "/SPU2-X.ini");
+	strcpy(address2, address);
+	strcat(address2, ".bak");
+
+	if (file = fopen(address2, "r")) {
+		fclose(file); //file exists revert
+		filecopy(address2, address);
+		remove(address2);
+		printf("changed back.\n");
+
+	}
+	else {
+
+		filecopy(address, address2); //backup
+
+
+
+		file = fopen(address2, "r");
+		if (!file) error("something happened");
+
+		file2 = fopen(address, "w");
+		if (!file2) error("something happened");
+
+		fseek(file, 0L, SEEK_END);
+		flength = ftell(file); //tell filesize
+		fseek(file, 0L, SEEK_SET); //goto first
+		switch (flag) {
+		case 1:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
+
+					fputs("Synch_Mode=2\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 2:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
+
+					fputs("Synch_Mode=2\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 5:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
+
+					fputs("Synch_Mode=2\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 6:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
+
+					fputs("Synch_Mode=2\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
