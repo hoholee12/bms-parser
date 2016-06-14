@@ -505,6 +505,10 @@ int main(int argc, char **argv) {
 
 					fputs("Synch_Mode=2\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
+
+					fputs("Latency=3\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -516,6 +520,10 @@ int main(int argc, char **argv) {
 				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
 
 					fputs("Synch_Mode=2\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
+
+					fputs("Latency=3\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -529,6 +537,10 @@ int main(int argc, char **argv) {
 
 					fputs("Synch_Mode=2\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
+
+					fputs("Latency=3\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -540,6 +552,10 @@ int main(int argc, char **argv) {
 				if (!strcmp(strtok(buffer2, " ="), "Synch_Mode")) {
 
 					fputs("Synch_Mode=2\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
+
+					fputs("Latency=3\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
