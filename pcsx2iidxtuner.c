@@ -663,17 +663,9 @@ int main(int argc, char **argv) {
 		case 4:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
-				if (!strcmp(strtok(buffer2, " ="), "resx")) {
+				if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
 
-					fputs("resx=1280\n", file2);
-				}
-				else if (!strcmp(strtok(buffer2, " ="), "resy")) {
-
-					fputs("resy=720\n", file2);
-				}
-				else if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
-
-					fputs("upscale_multiplier=0\n", file2);
+					fputs("upscale_multiplier=2\n", file2);
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "filter")) {
 
