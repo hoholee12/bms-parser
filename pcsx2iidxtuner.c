@@ -191,7 +191,7 @@ int main(int argc, char **argv) {
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
-					fputs("VsyncEnable=enabled\n", file2);
+					fputs("VsyncEnable=disabled\n", file2);
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "ManagedVsync")) {
 
@@ -291,7 +291,7 @@ int main(int argc, char **argv) {
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "VsyncEnable")) {
 
-					fputs("VsyncEnable=enabled\n", file2);
+					fputs("VsyncEnable=disabled\n", file2);
 				}
 				else if (!strcmp(strtok(buffer2, " ="), "ManagedVsync")) {
 
