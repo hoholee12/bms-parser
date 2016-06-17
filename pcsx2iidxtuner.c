@@ -2,12 +2,13 @@
 
 give -1 on argv[2] for 3rd - 8th style switch
 give -2 on argv[2] for 9th - 16th style switch
-give -3 on argv[2] lighter stealing
+give -3 on argv[2] for one lower vu stealing level
 give -4 on argv[2] hd rendering
 give -5 on argv[2] for pop'n music switch
 give -6 on argv[2] for 9th - 16th style HD alternative
 give -7 on argv[2] for ogl render + hwdepth
 give -8 on argv[2] for vuThread(boost katamari games)
+give -9 on argv[2] for kingdom hearts HD rendering(lighter speedhack)
 
 based on PCSX2 v1.2.1 - newer revisions just lag like hell :/
 */
@@ -69,7 +70,7 @@ int main(int argc, char **argv) {
 	char* temp = NULL;
 
 	if (argc == 1) {
-		error("nothing specified. i need a directory of ini folder and option\n"
+		error("nothing specified. i need a directory of ini folder\n"
 			"parameter:\n"
 			"\"-1\" for 3rd - 8th style\n"
 			"\"-2\" for 9th - 16th style\n"
@@ -79,10 +80,11 @@ int main(int argc, char **argv) {
 			"\"-6\" for 9th - 16th style HD alternative\n"
 			"\"-7\" for ogl render + hwdepth\n"
 			"\"-8\" for vuThread(boost katamari games)\n"
+			"\"-9\" for kingdom hearts HD rendering(lighter speedhack)"
 			);
 	}
 	else if (argc == 2) {
-		error("requires both ini folder directory and option\n"
+		error("requires option below\n"
 			"parameter:\n"
 			"\"-1\" for 3rd - 8th style\n"
 			"\"-2\" for 9th - 16th style\n"
@@ -92,6 +94,7 @@ int main(int argc, char **argv) {
 			"\"-6\" for 9th - 16th style HD alternative\n"
 			"\"-7\" for ogl render + hwdepth\n"
 			"\"-8\" for vuThread(boost katamari games)\n"
+			"\"-9\" for kingdom hearts HD rendering(lighter speedhack)"
 			);
 	
 	}
@@ -122,6 +125,8 @@ int main(int argc, char **argv) {
 		flag = 7; break;
 	case '8':
 		flag = 8; break;
+	case '9':
+		flag = 9; break;
 	default:
 		error("invalid option!");
 	
@@ -249,7 +254,7 @@ int main(int argc, char **argv) {
 				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
 					temp = strtok(NULL, " =");
 					if (temp[0] - '0' > 0) {
-						fprintf(file2, "VUCycleSteal=%d\n", temp[0] - '0' - 1); //light stealing
+						fprintf(file2, "VUCycleSteal=%d\n", temp[0] - '0' - 1); //lighter stealing
 					}
 					else {
 						fprintf(file2, "VUCycleSteal=0\n");
@@ -354,6 +359,24 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "vuThread")) {
 
 					fputs("vuThread=enabled\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+			break;
+		case 9:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "VUCycleSteal")) {
+					temp = strtok(NULL, " =");
+					if (temp[0] - '0' > 0) {
+						fprintf(file2, "VUCycleSteal=%d\n", temp[0] - '0' - 1); //lighter stealing
+					}
+					else {
+						fprintf(file2, "VUCycleSteal=0\n");
+
+					}
 				}
 				else {
 					fputs(buffer, file2);
@@ -753,6 +776,23 @@ int main(int argc, char **argv) {
 				}
 			}
 			break;
+		case 9:
+			for (; fgets(buffer, 1024, file); i++) {
+				strcpy(buffer2, buffer);
+				if (!strcmp(strtok(buffer2, " ="), "upscale_multiplier")) {
+
+					fputs("upscale_multiplier=2\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "filter")) {
+
+					fputs("filter=1\n", file2);
+				}
+				else {
+					fputs(buffer, file2);
+				}
+			}
+
+		break;
 		default:
 			for (; fgets(buffer, 1024, file); i++) {
 				strcpy(buffer2, buffer);
