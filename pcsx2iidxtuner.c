@@ -532,6 +532,10 @@ int main(int argc, char **argv) {
 
 					fputs("Latency=3\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "Output_Module")) {
+
+					fputs("Output_Module=dsound\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -547,6 +551,10 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
 
 					fputs("Latency=3\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "Output_Module")) {
+
+					fputs("Output_Module=dsound\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
@@ -564,6 +572,10 @@ int main(int argc, char **argv) {
 
 					fputs("Latency=3\n", file2);
 				}
+				else if (!strcmp(strtok(buffer2, " ="), "Output_Module")) {
+
+					fputs("Output_Module=dsound\n", file2);
+				}
 				else {
 					fputs(buffer, file2);
 				}
@@ -579,6 +591,10 @@ int main(int argc, char **argv) {
 				else if (!strcmp(strtok(buffer2, " ="), "Latency")) {
 
 					fputs("Latency=3\n", file2);
+				}
+				else if (!strcmp(strtok(buffer2, " ="), "Output_Module")) {
+
+					fputs("Output_Module=dsound\n", file2);
 				}
 				else {
 					fputs(buffer, file2);
