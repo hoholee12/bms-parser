@@ -45,3 +45,4 @@ Temporary Items
 # copyrighted files
 bms/
 
+*.pyc

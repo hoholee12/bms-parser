@@ -48,18 +48,19 @@ class reader:
 	count=[[0 for i in range(10)] for i in range(100)]
 	def __init__(self, filename):
 		self.filename=filename
-		self.bms=open(self.filename, 'r')
+		self.bms=open(self.filename, 'r', encoding='UTF-8', errors='ignore')
 		for i in self.bms.read().split('\n'):
 			if i[:1] == '#':
 				if i[1:4] == "WAV":
 					try:
 						self.WAV[i[4:6]]=mixer.Sound(self.filename.rsplit('/', 1)[0]+'/'+i.split(' ')[1])
 					except:
-						self.WAV[i[4:6]]=mixer.Sound(self.filename.rsplit('/', 1)[0]+'/'+i.split(' ')[1].split('.')[0]+".ogg")
-						
+						try:
+							self.WAV[i[4:6]]=mixer.Sound(self.filename.rsplit('/', 1)[0]+'/'+i.split(' ')[1].split('.')[0]+".ogg")
+						except:
+							pass
 				if i[1:4] == "BPM":
 					self.BPM=int(i.split(' ')[1])
-					
 					
 				try:
 					if int(i[1:4]):
@@ -173,7 +174,7 @@ class reader:
 			
 if __name__ == "__main__":
 				
-	hello=reader("bms/Release The Music/#Release The Music [03 SP ANOTHER].bme")
+	hello=reader("bms/take003/_take_7A.bms")
 	hello.readnote()
 	hello.arrangenote()
 
