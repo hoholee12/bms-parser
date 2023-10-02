@@ -27,7 +27,7 @@ class player(threading.Thread):
 			for j in range(9):
 				if self.MPLAY[self.i][j][k:k+2] != "" and self.MPLAY[self.i][j][k:k+2] != "00":
 					self.WAV[self.MPLAY[self.i][j][k:k+2]].play()
-					print("osim:"+self.MPLAY[self.i][j][k:k+2]+" "+str(self.i)+" "+str(j)+" "+str(k))
+					#print("osim:"+self.MPLAY[self.i][j][k:k+2]+" "+str(self.i)+" "+str(j)+" "+str(k))
 			#if self.MPLAY[self.i][9][k:k+2] != "" and self.MPLAY[self.i][9][k:k+2] != "00" and self.MPLAY[self.i][9][k:k+2] != "F0":
 			#	print("hello")
 			#	self.WAV[self.MPLAY[self.i][9][k:k+2]].play()
@@ -83,45 +83,45 @@ class reader:
 					if i[4:6] == "01": #autoplay
 						self.PLAY[self.loop][0]=i[7:]
 						self.count[self.loop][0]=len(str(self.PLAY[self.loop][0]))
-						print("0:"+str(self.PLAY[self.loop][0]))
+						#print("0:"+str(self.PLAY[self.loop][0]))
 					elif i[4:6] == "04": #bga
 						self.PLAY[self.loop][9]=i[7:]
 						self.count[self.loop][9]=len(str(self.PLAY[self.loop][9]))
-						print("0:"+str(self.PLAY[self.loop][9]))
+						#print("0:"+str(self.PLAY[self.loop][9]))
 					elif i[4:6] == "11": #whitekey 1
 						self.PLAY[self.loop][1]=i[7:]
 						self.count[self.loop][1]=len(str(self.PLAY[self.loop][1]))
-						print("1:"+str(self.PLAY[self.loop][1]))
+						#print("1:"+str(self.PLAY[self.loop][1]))
 					elif i[4:6] == "12": #bluekey 1
 						self.PLAY[self.loop][2]=i[7:]
 						self.count[self.loop][2]=len(str(self.PLAY[self.loop][2]))
-						print("2:"+str(self.PLAY[self.loop][2]))
+						#print("2:"+str(self.PLAY[self.loop][2]))
 					elif i[4:6] == "13": #whitekey 2
 						self.PLAY[self.loop][3]=i[7:]
 						self.count[self.loop][3]=len(str(self.PLAY[self.loop][3]))
-						print("3:"+str(self.PLAY[self.loop][3]))
+						#print("3:"+str(self.PLAY[self.loop][3]))
 					elif i[4:6] == "14": #bluekey 2
 						self.PLAY[self.loop][4]=i[7:]
 						self.count[self.loop][4]=len(str(self.PLAY[self.loop][4]))
-						print("4:"+str(self.PLAY[self.loop][4]))
+						#print("4:"+str(self.PLAY[self.loop][4]))
 					elif i[4:6] == "15": #whitekey 3
 						self.PLAY[self.loop][5]=i[7:]
 						self.count[self.loop][5]=len(str(self.PLAY[self.loop][5]))
-						print("5:"+str(self.PLAY[self.loop][5]))
+						#print("5:"+str(self.PLAY[self.loop][5]))
 					elif i[4:6] == "18": #bluekey 3
 						self.PLAY[self.loop][6]=i[7:]
 						self.count[self.loop][6]=len(str(self.PLAY[self.loop][6]))
-						print("6:"+str(self.PLAY[self.loop][6]))
+						#print("6:"+str(self.PLAY[self.loop][6]))
 					elif i[4:6] == "19": #whitekey 4
 						self.PLAY[self.loop][7]=i[7:]
 						self.count[self.loop][7]=len(str(self.PLAY[self.loop][7]))
-						print("7:"+str(self.PLAY[self.loop][7]))
+						#print("7:"+str(self.PLAY[self.loop][7]))
 					elif i[4:6] == "16": #scratch
 						self.PLAY[self.loop][8]=i[7:]
 						self.count[self.loop][8]=len(str(self.PLAY[self.loop][8]))
-						print("8:"+str(self.PLAY[self.loop][8]))
-					print(self.loop, diff, self.count[self.loop])
-		print("end")
+						#print("8:"+str(self.PLAY[self.loop][8]))
+					#print(self.loop, diff, self.count[self.loop])
+		#print("end")
 
 
 	def arrangenote(self):
@@ -140,7 +140,7 @@ class reader:
 				else:
 					for k in range(192):
 						self.MPLAY[i][j]+="00"
-				print(str(i), str(j), str(l), self.MPLAY[i][j])
+				#print(str(i), str(j), str(l), self.MPLAY[i][j])
 
 
 	def drawnote(self, i, k):
@@ -161,11 +161,11 @@ class reader:
 	def playnote(self):
 		i=0
 		PLAYTHREAD=None
-		x=(60/(self.BPM/4))*1000+0.5 #master
+		x=(60.0/(self.BPM/4))*1000.0 #master
 		for i in range(0, self.loop+1):
 			PLAYTHREAD=player(self.WAV, self.NUM, self.BPM, self.MPLAY, self.loop, self.bms, self.filename, self.count, i)
 			PLAYTHREAD.start()
-			print(x)
+			#print(x)
 			time.sleep(x/1000.0) #140bpm
 
 
@@ -174,7 +174,7 @@ class reader:
 			
 if __name__ == "__main__":
 				
-	hello=reader("bms/take003/_take_7A.bms")
+	hello=reader("bms/[BMS]Acquire/_another.bms")
 	hello.readnote()
 	hello.arrangenote()
 

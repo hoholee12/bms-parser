@@ -14,9 +14,9 @@ pygame.init()
 
 black=(0x0, 0x0, 0x0)
 white=(0xff, 0xff, 0xff)
-red=(0xff, 0x0, 0x0)
-green=(0x0, 0xff, 0x0)
-blue=(0x0, 0x0, 0xff)
+red=(0xff, 0x0f, 0x0f)
+green=(0x0f, 0xff, 0x0f)
+blue=(0x0f, 0x0f, 0xff)
 lightblue=(0x0, 0xbf, 0xff)
 gray=(0x80, 0x80, 0x80)
 orange=(0xff, 0xa5, 0x0)
@@ -29,15 +29,15 @@ height=480
 size=(width, height)
 screen=pygame.display.set_mode(size)
 
-pygame.display.set_caption("mygame")
+pygame.display.set_caption("TENDON vibes v0.02")
 
 done=False
 
 clock=pygame.time.Clock() #for clock.tick(60)
 
-fps=30
+fps=240
 
-
+timetosleep=0
 '''
 game vars============================================================
 '''
@@ -54,6 +54,7 @@ class note:
 
 	def printnote(self):
 		pygame.gfxdraw.box(screen, pygame.Rect(self.loc[0], self.loc[1], self.loc[2], self.loc[3]), self.color)
+			
 
 	def playmusic(self):
 		if self.loc[1]>380:
@@ -66,8 +67,8 @@ class note:
 
 class keys:
 	#tweak bar length and speed here
-	max=200
-	speed=max/(fps/6)
+	max=200.0
+	speed=max/(fps/6.0)
 	
 	angle=360 #turntable
 	val=[0,0,0,0,0,0,0,0] #zsxdcfv shift
@@ -82,25 +83,25 @@ class keys:
 			self.lock=[0,0,0,0,0,0,0,0] #zsxdcfv shift
 
 	def draw(self, screen, loc=[0,0]):
-		max=230 #hax
+		max=240 #hax
 		x=0
 		for i in range(0, 7):
 			if i%2 == 0:
-				pygame.gfxdraw.box(screen, pygame.Rect(loc[0]+x, loc[1]+max-self.val[i], 30, self.val[i]), (0x0, 0xbf, 0x0, self.val[i]))
+				pygame.gfxdraw.box(screen, pygame.Rect(loc[0]+x, loc[1]-480, 30, 760), (0x0, 0xbf, 0x0, (self.val[i] + 1) / 2))
 				x+=30
 			else:
-				pygame.gfxdraw.box(screen, pygame.Rect(loc[0]+x, loc[1]+max-self.val[i], 25, self.val[i]), (0x0, 0xbf, 0xff, self.val[i]))
+				pygame.gfxdraw.box(screen, pygame.Rect(loc[0]+x, loc[1]-480, 25, 760), (0x0, 0xbf, 0xff, (self.val[i] + 1)/ 2))
 				x+=25
 				
 				
 				
 	def drawscratch(self, screen, loc=[0,0]):
-		max=230 #hax
-		pygame.gfxdraw.box(screen, pygame.Rect(loc[0]-50, loc[1]+max-self.val[7], 50, self.val[7]), (0xbf, 0xbf, 0x0, self.val[7]))
+		max=240 #hax
+		pygame.gfxdraw.box(screen, pygame.Rect(loc[0]-50, loc[1]-480, 50, 760), (0xbf, 0xbf, 0x0, (self.val[7] + 1) / 2))
 		pygame.draw.ellipse(screen, gray, [loc[0]-50, loc[1]+max, 50, 30])
 		if self.on[7] == 1:
 			pygame.draw.ellipse(screen, orange, [loc[0]-50+10, loc[1]+max+5, 30, 20])
-			self.angle-=self.speed/(fps/15)
+			self.angle-=self.speed/(fps/480.0)
 			self.angle%=360
 		else:
 			pygame.draw.ellipse(screen, lightblue, [loc[0]-50+10, loc[1]+max+5, 30, 20])
@@ -111,7 +112,7 @@ class keys:
 
 		
 	def drawline(self, screen, loc=[0,0]):
-		pygame.draw.rect(screen, white, [loc[0], loc[1], 195, 0]) #bpm vertical bar
+		pygame.draw.rect(screen, white, [loc[0], loc[1], 195, 1]) #bpm vertical bar
 
 
 				
@@ -142,15 +143,15 @@ class keys:
 					screen.blit(text, [loc[0]+x, loc[1]+30])
 					x+=25
 					
-		pygame.draw.rect(screen, red, [loc[0], loc[1]+30, 195, 0]) #red vertical bar
+		pygame.draw.rect(screen, red, [loc[0], loc[1]+30, 195, 1]) #red vertical bar
 		#white horizontal bars
 		x=0
 		for i in range(0, 8):
 			if i%2 == 0:
-				pygame.draw.rect(screen, white, [loc[0]+x, 0, 0, loc[1]+30])
+				pygame.draw.rect(screen, white, [loc[0]+x, 1, 1, loc[1]+30])
 				x+=30
 			else:
-				pygame.draw.rect(screen, white, [loc[0]+x, 0, 0, loc[1]+30])
+				pygame.draw.rect(screen, white, [loc[0]+x, 1, 1, loc[1]+30])
 				x+=25
 			
 			
@@ -170,7 +171,9 @@ class keys:
 #drawscratch: 50 pixels wide
 		
 
-hello=bmsreader.reader("bms/take003/_take_7A.bms")
+#hello=bmsreader.reader("bms/[BMS]ENERGY SYNERGY MATRIX/_another.bms")
+hello=bmsreader.reader("bms/[BMS]Acquire/_another.bms")
+
 hello.readnote()
 hello.arrangenote()
 
@@ -187,7 +190,7 @@ count=0
 j=0
 k=0
 x=0
-xbuf=20
+xbuf=30
 
 testnote=[[None for i in range(10)] for i in range(xbuf)]
 
@@ -198,6 +201,9 @@ testnote=[[None for i in range(10)] for i in range(xbuf)]
 '''
 
 while not done:
+
+	start_time = time.time()
+
 	'''
 event loop===========================================================
 	'''
@@ -335,6 +341,14 @@ game logic===========================================================
 	mykeys.logic()
 	p2keys.logic()
 	
+	mykeys.draw(screen, [50, 150])
+	mykeys.drawunder(screen, font, [50, 150])
+	mykeys.drawscratch(screen, [50, 150])
+	
+	p2keys.draw(screen, [609, 150])
+	p2keys.drawunder(screen, font, [609, 150])
+	p2keys.drawscratch(screen, [854, 150])
+	
 	
 	
 	
@@ -344,12 +358,12 @@ draw loop============================================================
 
 
 	arr=hello.drawnote(j, k)
-	print(arr, j, k)
+	#print(arr, j, k)
 	k+=2
-	if k>384:
+	if k > 384:
 		k=0
 		j+=1
-	if x>=xbuf:
+	if x >= xbuf - 1:
 		x=0
 
 
@@ -378,12 +392,20 @@ draw loop============================================================
 	for a in range(xbuf):
 		if testnote[a][0]:
 			if testnote[a][0].playmusic():
-				hello.WAV[testnote[a][0].str].play()
+				try:
+					hello.WAV[testnote[a][0].str].play()
+				except:
+					print("cant play"+testnote[a][0].str)
+					pass
 		for i in range(1, 10):
 			if testnote[a][i]:
 				testnote[a][i].printnote()
 				if testnote[a][i].playmusic():
-					hello.WAV[testnote[a][i].str].play()
+					try:
+						hello.WAV[testnote[a][i].str].play()
+					except:
+						print("cant play"+testnote[a][i].str)
+						pass
 					if i <9:
 						mykeys.val[i-1]=mykeys.max+mykeys.speed
 						mykeys.lock[i-1]=1
@@ -399,19 +421,11 @@ draw loop============================================================
 	for a in range(xbuf):
 		for i in range(10):
 			if testnote[a][i]:
-				testnote[a][i].loc[1]+=5
+				testnote[a][i].loc[1]+=4
 
 
 	x+=1
 
-	mykeys.draw(screen, [50, 150])
-	mykeys.drawunder(screen, font, [50, 150])
-	mykeys.drawscratch(screen, [50, 150])
-	
-	p2keys.draw(screen, [609, 150])
-	p2keys.drawunder(screen, font, [609, 150])
-	p2keys.drawscratch(screen, [854, 150])
-	
 	for i in range(0, 7):
 		text=font.render(str(mykeys.on[i]), True, white)
 		screen.blit(text, [width-200+25*i, height-30])
@@ -420,9 +434,12 @@ draw loop============================================================
 	'''
 final render=========================================================
 	'''
-	test=(60/(hello.BPM/4))/192*1000+0.5 #master
+	test=(60.0/(hello.BPM/4))/200.0*1000.0 #master
 	pygame.display.flip() #update frame
-	time.sleep(test/1000.0)
+	
+	timetosleep = test/1000.0 - (time.time() - start_time)
+	if timetosleep > 0:
+		time.sleep(timetosleep)
 	
 	screen.fill(black) #clear screen AFTER clock.tick wait
 
