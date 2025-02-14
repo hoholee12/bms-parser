@@ -6,6 +6,8 @@ import time
 
 mixer=pygame.mixer
 mixer.init()
+mixer.set_num_channels(16)
+
 
 class player(threading.Thread):
 	def __init__(self, WAV, NUM, BPM, MPLAY, loop, bms, filename, count, i):
@@ -174,7 +176,8 @@ class reader:
 			
 if __name__ == "__main__":
 				
-	hello=reader("bms/[BMS]Acquire/_another.bms")
+	# hello=reader("bms/[BMS]Acquire/_another.bms")
+	hello=reader("bms/[BMS]ENERGY SYNERGY MATRIX/_another.bms")
 	hello.readnote()
 	hello.arrangenote()
 

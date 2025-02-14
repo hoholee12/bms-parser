@@ -171,8 +171,8 @@ class keys:
 #drawscratch: 50 pixels wide
 		
 
-#hello=bmsreader.reader("bms/[BMS]ENERGY SYNERGY MATRIX/_another.bms")
-hello=bmsreader.reader("bms/[BMS]Acquire/_another.bms")
+hello=bmsreader.reader("bms/[BMS]ENERGY SYNERGY MATRIX/_another.bms")
+# hello=bmsreader.reader("bms/[BMS]Acquire/_another.bms")
 
 hello.readnote()
 hello.arrangenote()
@@ -372,56 +372,55 @@ draw loop============================================================
 			if i == 0:
 				testnote[x][i]=note(black, arr[i], [0, 0, 0, 0]) #bar
 			if i == 1:
-				testnote[x][i]=note(gray, arr[i], [50, 0, 30, 5]) #white1
+				testnote[x][i]=note(gray, arr[i], [50, 0, 30, 7]) #white1
 			if i == 2:
-				testnote[x][i]=note(blue, arr[i], [80, 0, 25, 5]) #blue1
+				testnote[x][i]=note(blue, arr[i], [80, 0, 25, 7]) #blue1
 			if i == 3:
-				testnote[x][i]=note(gray, arr[i], [105, 0, 30, 5]) #white2
+				testnote[x][i]=note(gray, arr[i], [105, 0, 30, 7]) #white2
 			if i == 4:
-				testnote[x][i]=note(blue, arr[i], [135, 0, 25, 5]) #blue2
+				testnote[x][i]=note(blue, arr[i], [135, 0, 25, 7]) #blue2
 			if i == 5:
-				testnote[x][i]=note(gray, arr[i], [160, 0, 30, 5]) #white3
+				testnote[x][i]=note(gray, arr[i], [160, 0, 30, 7]) #white3
 			if i == 6:
-				testnote[x][i]=note(blue, arr[i], [190, 0, 25, 5]) #blue3
+				testnote[x][i]=note(blue, arr[i], [190, 0, 25, 7]) #blue3
 			if i == 7:
-				testnote[x][i]=note(gray, arr[i], [215, 0, 30, 5]) #white4
+				testnote[x][i]=note(gray, arr[i], [215, 0, 30, 7]) #white4
 			if i == 8:
-				testnote[x][i]=note(red, arr[i], [0, 0, 50, 5]) #scratch
+				testnote[x][i]=note(red, arr[i], [0, 0, 50, 7]) #scratch
 
 	#print notes
 	for a in range(xbuf):
+		curframe = []
 		if testnote[a][0]:
 			if testnote[a][0].playmusic():
 				try:
-					hello.WAV[testnote[a][0].str].play()
+					curframe.append(hello.WAV[testnote[a][0].str])
 				except:
-					print("cant play"+testnote[a][0].str)
 					pass
 		for i in range(1, 10):
 			if testnote[a][i]:
 				testnote[a][i].printnote()
 				if testnote[a][i].playmusic():
 					try:
-						hello.WAV[testnote[a][i].str].play()
+						curframe.append(hello.WAV[testnote[a][i].str])
 					except:
-						print("cant play"+testnote[a][i].str)
 						pass
 					if i <9:
 						mykeys.val[i-1]=mykeys.max+mykeys.speed
 						mykeys.lock[i-1]=1
-					
-						
 				else:
 					if i <9:
 						mykeys.lock[i-1]=0
 					
-
+		for ff in curframe:
+			ff.play()
+					
 
 	#move notes
 	for a in range(xbuf):
 		for i in range(10):
 			if testnote[a][i]:
-				testnote[a][i].loc[1]+=4
+				testnote[a][i].loc[1]+=6
 
 
 	x+=1
@@ -434,11 +433,12 @@ draw loop============================================================
 	'''
 final render=========================================================
 	'''
-	test=(60.0/(hello.BPM/4))/200.0*1000.0 #master
+	test=(60.0/(hello.BPM/4))/215.0*1000.0 #master
 	pygame.display.flip() #update frame
 	
 	timetosleep = test/1000.0 - (time.time() - start_time)
 	if timetosleep > 0:
+		# print("slept " + str(timetosleep) + " seconds")
 		time.sleep(timetosleep)
 	
 	screen.fill(black) #clear screen AFTER clock.tick wait
